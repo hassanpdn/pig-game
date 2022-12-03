@@ -34,6 +34,7 @@ function changePlayer(){
 }
 
 btnRoll.addEventListener('click', function(){
+      if((activePlayer ? player1Score : player0Score) >= 20) return
       const randomNumber = generateRandomNumber();
       diceEl.src = `dice-${randomNumber}.png`;
       diceEl.classList.remove('hidden');
@@ -42,8 +43,9 @@ btnRoll.addEventListener('click', function(){
             document.getElementById(`current--${activePlayer}`).textContent = activePlayer ? player1Score : player0Score;
 
             if((activePlayer ? player1Score : player0Score) >= 20) {
-                  document.getElementById(`current--${activePlayer}`).classList.add('player--winner')
-                  document.getElementById(`current--${activePlayer}`).classList.remove('player--active')
+                  document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+                  document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+                  diceEl.classList.add('hidden');
             }
       } else {
             changePlayer();
@@ -51,6 +53,7 @@ btnRoll.addEventListener('click', function(){
 })
 
 btnHold.addEventListener('click', function(){
+      if((activePlayer ? player1Score : player0Score) >= 20) return
       activePlayer ? score1El.textContent = Number(score1El.textContent) + player1Score : score0El.textContent = Number(score0El.textContent) + player0Score;
       changePlayer();
 })
