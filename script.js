@@ -57,3 +57,14 @@ btnHold.addEventListener('click', function(){
       activePlayer ? score1El.textContent = Number(score1El.textContent) + player1Score : score0El.textContent = Number(score0El.textContent) + player0Score;
       changePlayer();
 })
+
+btnNew.addEventListener('click', function(){
+      document.querySelector(`.player--${activePlayer}`).classList.remove('player--winner');
+      player0Score = player1Score = currentScore = activePlayer = 0;
+      [0, 1].forEach(item => {
+            item === activePlayer ? document.querySelector(`.player--${item}`).classList.add('player--active') : document.querySelector(`.player--${item}`).classList.remove('player--active')
+            document.querySelector(`.player--${activePlayer}`).classList.add('player--active');
+      })
+      score0El.textContent = score1El.textContent = current0El.textContent = current1El.textContent = 0;
+      diceEl.classList.add('hidden');
+})
