@@ -20,8 +20,16 @@ const initialize = () => {
       diceEl.classList.add('hidden');
       currentScore = 0;
       activePlayer = 0;
-      document.querySelector(`.player--${activePlayer}`).classList.add('player--active')
-      document.querySelector(`.player--${activePlayer? '0' : '1'}`).classList.remove('player--active')
+      if(document.querySelector(`.player--${activePlayer}`).classList.contains('player--winner')) {
+            document.querySelector(`.player--${activePlayer}`).classList.remove('player--winner')
+      } else if(document.querySelector(`.player--1`).classList.contains('player--winner')) {
+            document.querySelector(`.player--1`).classList.remove('player--winner')
+      }
+      document.querySelector(`.player--${activePlayer}`).classList.add('player--active');
+      document.querySelector(`.player--${activePlayer? '0' : '1'}`).classList.remove('player--active');
+      [0,1].forEach(item => {
+            if(document.querySelector(`.player--${item}`).classList.contains('.player--winner')) document.querySelector(`.player--${item}`).classList.remove('.player--winner');
+      })
       player0Score = null;
       player1Score = null;
 }
@@ -57,11 +65,16 @@ btnRoll.addEventListener('click', function(){
 })
 
 btnHold.addEventListener('click', function(){
-      if((activePlayer ? player1Score : player0Score) >= 20) return
+      if(document.querySelector('.player--winner') !== null) return
+      if((activePlayer ? Number(score1El.textContent) + player1Score : Number(score0El.textContent) + player0Score) >= 20) {
+            activePlayer ? score1El.textContent = Number(score1El.textContent) + player1Score : score0El.textContent = Number(score0El.textContent) + player0Score;
+            document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+            document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+            diceEl.classList.add('hidden');
+            return
+      }
       activePlayer ? score1El.textContent = Number(score1El.textContent) + player1Score : score0El.textContent = Number(score0El.textContent) + player0Score;
       changePlayer();
 })
 
-btnNew.addEventListener('click', function(){
-      initialize()
-})
+btnNew.addEventListener('click', initialize)
