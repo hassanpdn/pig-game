@@ -10,19 +10,23 @@ const  btnHold = document.querySelector('.btn--hold');
 const section0 = document.querySelector('.player--0');
 const section1 = document.querySelector('.player--1');
 
-score0El.textContent = score1El.textContent = 0;
-diceEl.classList.add('hidden');
-
 let generateRandomNumber = function() {
       return Math.trunc((Math.random() * 6)) + 1
 }
-let currentScore = 0;
-let activePlayer = 0;
+let currentScore, activePlayer, player0Score, player1Score;
 
-document.querySelector(`.player--${activePlayer}`).classList.add('player--active')
+const initialize = () => {
+      score0El.textContent = score1El.textContent = current0El.textContent = current1El.textContent = 0;
+      diceEl.classList.add('hidden');
+      currentScore = 0;
+      activePlayer = 0;
+      document.querySelector(`.player--${activePlayer}`).classList.add('player--active')
+      document.querySelector(`.player--${activePlayer? '0' : '1'}`).classList.remove('player--active')
+      player0Score = null;
+      player1Score = null;
+}
 
-let player0Score = null;
-let player1Score = null;
+initialize();
 
 function changePlayer(){
       player0Score = player1Score = 0;
@@ -59,12 +63,5 @@ btnHold.addEventListener('click', function(){
 })
 
 btnNew.addEventListener('click', function(){
-      document.querySelector(`.player--${activePlayer}`).classList.remove('player--winner');
-      player0Score = player1Score = currentScore = activePlayer = 0;
-      [0, 1].forEach(item => {
-            item === activePlayer ? document.querySelector(`.player--${item}`).classList.add('player--active') : document.querySelector(`.player--${item}`).classList.remove('player--active')
-            document.querySelector(`.player--${activePlayer}`).classList.add('player--active');
-      })
-      score0El.textContent = score1El.textContent = current0El.textContent = current1El.textContent = 0;
-      diceEl.classList.add('hidden'); 
+      initialize()
 })
