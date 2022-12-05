@@ -66,5 +66,5 @@ btnNew.addEventListener('click', function(){
             document.querySelector(`.player--${activePlayer}`).classList.add('player--active');
       })
       score0El.textContent = score1El.textContent = current0El.textContent = current1El.textContent = 0;
-      diceEl.classList.add('hidden');
+      diceEl.classList.add('hidden'); 
 })
